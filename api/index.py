@@ -1,29 +1,41 @@
 from flask import Flask, request, jsonify, render_template
 import pickle
+import numpy as np
 import os
-import re
 import random
 
-app = Flask(__name__, template_folder='../templates')
+app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
-# Load Model Absolute Path (Penting untuk Vercel)
-base_path = os.path.dirname(os.path.abspath(__file__))
-model_dir = os.path.join(base_path, '../model')
+# --- BAGIAN PENTING: MENCARI LOKASI FILE DENGAN PASTI ---
+# Kita cari tahu dulu file index.py ini ada di folder mana
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Load semua file pickle
-with open(os.path.join(model_dir, 'chat_model.pkl'), 'rb') as f:
-    model = pickle.load(f)
-with open(os.path.join(model_dir, 'vectorizer.pkl'), 'rb') as f:
-    vectorizer = pickle.load(f)
-with open(os.path.join(model_dir, 'label_encoder.pkl'), 'rb') as f:
-    le = pickle.load(f)
-with open(os.path.join(model_dir, 'responses.pkl'), 'rb') as f:
-    responses = pickle.load(f)
+# Lalu kita mundur satu langkah ke folder utama (parent directory)
+base_dir = os.path.dirname(current_dir)
 
-def clean_text(text):
-    text = text.lower()
-    text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
-    return text
+# Sambungkan path folder utama dengan folder model
+model_path = os.path.join(base_dir, 'model', 'chat_model.pkl')
+vectorizer_path = os.path.join(base_dir, 'model', 'vectorizer.pkl')
+le_path = os.path.join(base_dir, 'model', 'label_encoder.pkl')
+responses_path = os.path.join(base_dir, 'model', 'responses.pkl')
+
+# Cek apakah file ada (untuk debugging di logs Vercel)
+if not os.path.exists(model_path):
+    print(f"ERROR FATAL: File model tidak ditemukan di {model_path}")
+# --------------------------------------------------------
+
+# Load Model
+try:
+    with open(model_path, 'rb') as f:
+        model = pickle.load(f)
+    with open(vectorizer_path, 'rb') as f:
+        vectorizer = pickle.load(f)
+    with open(le_path, 'rb') as f:
+        le = pickle.load(f)
+    with open(responses_path, 'rb') as f:
+        responses = pickle.load(f)
+except Exception as e:
+    print(f"Error Loading Model: {e}")
 
 @app.route('/')
 def home():
@@ -31,38 +43,31 @@ def home():
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    user_input = request.json.get('message')
-    
-    if not user_input:
-        return jsonify({'response': "Pesan kosong."})
+    try:
+        data = request.get_json()
+        user_input = data.get('message')
 
-    # Preprocessing
-    clean_input = clean_text(user_input)
-    
-    # Feature Extraction
-    input_vec = vectorizer.transform([clean_input])
-    
-    # Prediksi
-    # Cek probabilitas tertinggi
-    probs = model.predict_proba(input_vec)[0]
-    max_prob = max(probs)
-    pred_index = model.predict(input_vec)[0]
-    pred_tag = le.inverse_transform([pred_index])[0]
-    
-    # Confidence Threshold (Jika AI bingung / < 60% yakin)
-    if max_prob < 0.45: 
-        response_text = random.choice(responses['fallback']) # Ambil respon fallback yang sudah kita buat santai
-        intent = "unknown"
-    else:
-        response_text = random.choice(responses[pred_tag])
-        intent = pred_tag
+        if not user_input:
+            return jsonify({'response': "Ketik sesuatu dong kak :)"})
 
-    return jsonify({
-        'response': response_text,
-        'intent': intent,
-        'confidence': float(max_prob)
-    })
+        # Preprocessing & Prediksi
+        input_vec = vectorizer.transform([user_input.lower()])
+        prediction = model.predict(input_vec)[0]
+        probs = model.predict_proba(input_vec)[0]
+        max_prob = np.max(probs)
 
-# Handler untuk Vercel Serverless
-if __name__ == '__main__':
-    app.run(debug=True)
+        # Threshold Confidence (Ambang Batas)
+        if max_prob < 0.5: # Jika yakinnya kurang dari 50%
+            response_text = random.choice(responses['fallback'])
+        else:
+            predicted_tag = le.inverse_transform([prediction])[0]
+            response_text = random.choice(responses[predicted_tag])
+
+        return jsonify({'response': response_text})
+
+    except Exception as e:
+        return jsonify({'response': f"Maaf, ada error sistem: {str(e)}"})
+
+# Hapus app.run() karena Vercel menjalankannya otomatis via WSGI
+# if __name__ == '__main__':
+#     app.run(debug=True)
