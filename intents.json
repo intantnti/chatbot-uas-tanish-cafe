@@ -1,0 +1,158 @@
+{
+  "intents": [
+    {
+      "tag": "salam",
+      "patterns": [
+        "Halo", "Hai", "Pagi min", "Siang", "Sore", "Malam", 
+        "Permisi", "Woi", "Ping", "Assalamualaikum", "Halo Tanish", "Misi"
+      ],
+      "responses": [
+        "Halo kak! 👋 Mau nongki atau bungkus nih?",
+        "Hai! Selamat datang di Tanish Cafe. Ada yang bisa dibantu?",
+        "Yoo what's up! Tanish Cafe here. Mau pesen kopi apa hari ini? ☕",
+        "Waalaikumsalam. Silakan kak, mau duduk di mana?"
+      ]
+    },
+    {
+      "tag": "menu",
+      "patterns": [
+        "Spill menunya dong", "Ada menu apa aja?", "Jual makanan apa?", 
+        "Liat daftar harga", "Minuman yang ready apa?", "Menu lengkap", "Jual kopi apa aja?"
+      ],
+      "responses": [
+        "Nih kak, kita ada aneka Coffee (Espresso base & Manual Brew), Non-Coffee, sama Pastry enak! 🥐",
+        "Menu lengkap bisa cek di papan menu atau IG @tanishcafe ya. Mau rekomendasi?",
+        "Banyak kak! Mulai dari Kopi Susu Gula Aren sampe Croissant Almond ada. Mau liat yang mana?"
+      ]
+    },
+    {
+      "tag": "jam_buka",
+      "patterns": [
+        "Buka jam brp?", "Tutup jam brp?", "Masih buka ga?", 
+        "Sampe malem ga?", "Jadwal buka", "Close order jam berapa?"
+      ],
+      "responses": [
+        "Kita gas terus dari jam 8 pagi sampe 10 malem kak. 🕙",
+        "Masih dong! Kita buka tiap hari 08.00 - 22.00 WIB. Sini merapat!",
+        "Tenang, kita buka sampe jam 10 malem kok. Cocok buat nugas malem."
+      ]
+    },
+    {
+      "tag": "lokasi",
+      "patterns": [
+        "Shareloc dong", "Lokasi dimana?", "Alamatnya mana?", 
+        "Posisi cafe dimana?", "Ancer-ancernya apa?", "Cabang mana ni?"
+      ],
+      "responses": [
+        "Kita di Jl. Sudirman No. 45 kak, pas banget depan Taman Kota. 📍",
+        "Cuss langsung ke Jl. Sudirman No. 45. Cari aja plang gede Tanish Cafe.",
+        "Gampang dicari kok, kita ada di pusat kota (Seberang Taman Kota). Ditunggu ya!"
+      ]
+    },
+    {
+      "tag": "rekomendasi",
+      "patterns": [
+        "Yang paling enak apa?", "Bingung mau pesen apa", "Rekomendasi dong min", 
+        "Best seller nya apa?", "Menu favorit disini apa?", "Kopi yang creamy apa?"
+      ],
+      "responses": [
+        "Kalo suka manis creamy, wajib coba 'Kopi Susu Tanish'. Best seller tuh! ⭐",
+        "Lagi pengen seger? Coba 'Ice Lychee Tea' atau 'Mocktail Coffee' kita. Juara!",
+        "Buat nemenin nugas, 'Hot Latte' sama 'Croissant' sih combo terbaik kak."
+      ]
+    },
+    {
+      "tag": "wifi",
+      "patterns": [
+        "Ada wifi ga?", "Password wifi apa?", "Minta pw wifi", 
+        "Internetnya kenceng ga?", "Bisa buat mabar?", "Sandi internet"
+      ],
+      "responses": [
+        "Ada dong! WiFi kita ngebut 100Mbps. Password: 'ngopiditanish' (kecil semua). 📶",
+        "Password wifinya: 'ngopiditanish'. Janji gak dipake download film bajakan ya? 😜",
+        "Aman buat mabar atau zoom meeting! Password ada di struk atau ketik: 'ngopiditanish'."
+      ]
+    },
+    {
+      "tag": "reservasi",
+      "patterns": [
+        "Bisa booking meja?", "Mau reservasi dong", "Booking buat 4 orang", 
+        "Taggin tempat buat meeting", "Reservasi gimana caranya?", "Keep meja dong"
+      ],
+      "responses": [
+        "Bisa banget! Langsung WA admin kita di 0812-XXXX-XXXX buat keep meja ya. 📱",
+        "Reservasi bisa lewat DM Instagram atau WA ya kak. Mau dateng jam berapa?",
+        "Boleh kak, untuk berapa orang? Biar kita siapin mejanya."
+      ]
+    },
+    {
+      "tag": "pembayaran",
+      "patterns": [
+        "Bisa bayar pake QRIS?", "Terima gopay?", "Bisa gesek kartu?", 
+        "Bayar cash bisa?", "Metode pembayaran apa aja?", "Cashless bisa ga?"
+      ],
+      "responses": [
+        "Bisa semua kak! Cash, Debit, QRIS (Gopay/Ovo/Dana) sikat! 💸",
+        "Kita tim cashless friendly kok. Tinggal scan QRIS aja beres.",
+        "Tenang, dompet ketinggalan gapapa asal bawa HP. Kita terima QRIS kok."
+      ]
+    },
+    {
+      "tag": "vegan_opsi",
+      "patterns": [
+        "Bisa ganti oatmilk?", "Ada susu almond?", "Alergi susu sapi nih", 
+        "Menu vegan ada?", "Ganti susu lain bisa?", "Non-dairy ada?"
+      ],
+      "responses": [
+        "Ada dong! Bisa ganti Oatmilk atau Almond Milk (+5k) ya kak biar aman di perut. 🥛",
+        "Aman kak, bilang aja ke barista minta ganti Oatside/Almond milk ya.",
+        "Kita punya opsi susu nabati kok buat yang alergi dairy."
+      ]
+    },
+    {
+      "tag": "promosi",
+      "patterns": [
+        "Ada promo ga?", "Lagi ada diskon?", "Promo hari ini apa?", 
+        "Paket hemat ada?", "Buy 1 get 1 kapan?", "Voucher diskon"
+      ],
+      "responses": [
+        "Cek IG story kita @tanishcafe buat promo dadakan! Biasanya Jumat ada Buy 1 Get 1 loh. 🎉",
+        "Ada paket 'Morning Coffee + Toast' cuma 35k s/d jam 11 siang kak. Sikat!",
+        "Pantengin sosmed kita ya kak buat info diskon terbaru."
+      ]
+    },
+    {
+      "tag": "komplain",
+      "patterns": [
+        "Kok lama banget?", "Minumannya tumpah", "Salah pesenan nih", 
+        "Mejanya kotor", "Kopinya ga enak", "Pelayanan kurang"
+      ],
+      "responses": [
+        "Waduh, sorry banget ya kak! 😔 Langsung bilang ke kasir biar kita ganti baru/perbaiki.",
+        "Yah, maaf ya kak bikin ga nyaman. Infoin ke crew yang bertugas ya, nanti kita kompensasi.",
+        "Mohon maaf kak, terima kasih infonya. Bakal langsung kita evaluasi tim barusan."
+      ]
+    },
+    {
+      "tag": "terimakasih",
+      "patterns": [
+        "Makasih ya", "Tengkyu min", "Oke sip", "Mantap", 
+        "Yoi thanks", "Sip makasih infonya", "Bye"
+      ],
+      "responses": [
+        "Yoi sama-sama kak! Balik lagi yaa. 🙌",
+        "Siapp! Enjoy your coffee kak. ☕",
+        "Anytime kak! Ditunggu kedatangannya lagi. Hati-hati di jalan!"
+      ]
+    },
+    {
+      "tag": "fallback",
+      "patterns": [],
+      "responses": [
+        "Waduh sorry kak, aku kurang ngerti. Boleh ulang pertanyaannya pake bahasa lain? 🙏",
+        "Hmm.. maksudnya gimana kak? Coba tanya soal 'menu', 'lokasi', atau 'wifi' ya.",
+        "Maaf kak, robotnya lagi loading nih. Bisa tanya yang lebih jelas? 😅"
+      ]
+    }
+  ]
+}

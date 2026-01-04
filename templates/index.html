@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <title>Tanish Cafe AI Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- 1. CONFIGURATION & VARIABLES --- */
+        :root {
+            --bg-color: #FDFCF5;          /* Cream sangat muda */
+            --chat-bg: #FFF8E1;           /* Cream Latte */
+            --primary-brown: #4E342E;     /* Coklat Tua (Espresso) */
+            --secondary-brown: #8D6E63;   /* Coklat Muda (Mochaccino) */
+            --accent-yellow: #FBC02D;     /* Kuning Emas (Highlight) */
+            --text-dark: #3E2723;         /* Text Utama */
+            --text-light: #FFFFFF;        /* Text Putih */
+            --shadow: 0 10px 30px rgba(78, 52, 46, 0.15);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--bg-color) 0%, #EFEBE9 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-dark);
+        }
+
+        /* --- 2. CHAT CONTAINER (CARD) --- */
+        .chat-container {
+            width: 100%;
+            max-width: 420px;
+            height: 90vh; /* Tampilan mobile friendly */
+            background: #fff;
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(141, 110, 99, 0.2);
+            position: relative;
+        }
+
+        /* --- 3. HEADER --- */
+        .header {
+            background: var(--primary-brown);
+            color: var(--text-light);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 4px solid var(--accent-yellow);
+        }
+
+        .bot-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--chat-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--primary-brown);
+            border: 2px solid var(--accent-yellow);
+        }
+
+        .header-info h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            background-color: #4CAF50; /* Green for online */
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .header-info p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* --- 4. CHAT AREA --- */
+        .chat-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-image: radial-gradient(#8D6E63 0.5px, transparent 0.5px);
+            background-size: 20px 20px; /* Pola titik halus */
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Scrollbar Styling */
+        .chat-box::-webkit-scrollbar { width: 6px; }
+        .chat-box::-webkit-scrollbar-thumb { background-color: var(--secondary-brown); border-radius: 10px; }
+
+        /* --- 5. BUBBLES --- */
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            position: relative;
+            animation: popIn 0.3s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        @keyframes popIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Bot Bubble */
+        .bot {
+            align-self: flex-start;
+            background: white;
+            color: var(--text-dark);
+            border-radius: 20px 20px 20px 5px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.05);
+            border-left: 3px solid var(--accent-yellow);
+        }
+
+        /* User Bubble */
+        .user {
+            align-self: flex-end;
+            background: var(--primary-brown);
+            color: white;
+            border-radius: 20px 20px 5px 20px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* --- 6. INPUT AREA --- */
+        .input-area {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 30px;
+            border: 2px solid #EEE;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            background: #F9F9F9;
+        }
+
+        input:focus {
+            border-color: var(--secondary-brown);
+            background: white;
+        }
+
+        button {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-brown);
+            color: var(--accent-yellow);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(78, 52, 46, 0.3);
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background: var(--secondary-brown);
+            color: #FFF;
+        }
+
+        button:active { transform: scale(0.95); }
+
+        /* Typing Indicator */
+        .typing {
+            font-size: 12px;
+            color: var(--secondary-brown);
+            margin-left: 10px;
+            display: none;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="header">
+            <div class="bot-avatar">
+                <i class="fas fa-coffee"></i>
+            </div>
+            <div class="header-info">
+                <h2>Tanish Cafe</h2>
+                <p><span class="status-dot"></span>Online • Siap Melayani</p>
+            </div>
+        </div>
+
+        <div class="chat-box" id="chat-box">
+            <div class="message bot">
+                Halo kak! 👋 Selamat datang di Tanish Cafe. Mau ngopi apa hari ini?
+            </div>
+        </div>
+
+        <div id="typing-indicator" class="typing">Tanish sedang mengetik...</div>
+
+        <div class="input-area">
+            <div class="input-wrapper">
+                <input type="text" id="user-input" placeholder="Tanya menu, wifi, lokasi..." autocomplete="off" onkeypress="handleEnter(event)">
+            </div>
+            <button onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            const typingIndicator = document.getElementById('typing-indicator');
+
+            if (!message) return;
+
+            // 1. Tampilkan pesan user
+            addMessage(message, 'user');
+            input.value = '';
+
+            // 2. Efek "Sedang Mengetik" (UX Generative)
+            typingIndicator.style.display = 'block';
+            scrollToBottom();
+
+            try {
+                // 3. Kirim ke Backend
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                const data = await response.json();
+
+                // Delay sedikit biar kerasa "mikir" (Optional, 500ms)
+                setTimeout(() => {
+                    typingIndicator.style.display = 'none';
+                    addMessage(data.response, 'bot');
+                }, 500);
+
+            } catch (error) {
+                typingIndicator.style.display = 'none';
+                addMessage("Maaf kak, koneksi lagi gangguan nih. Coba lagi ya! 🙏", 'bot');
+            }
+        }
+
+        function addMessage(text, sender) {
+            const box = document.getElementById('chat-box');
+            const div = document.createElement('div');
+            
+            // Tambahkan kelas
+            div.className = `message ${sender}`;
+            
+            // Render Text (Bisa tambahkan HTML simple kalau mau)
+            div.innerHTML = text;
+            
+            box.appendChild(div);
+            scrollToBottom();
+        }
+
+        function scrollToBottom() {
+            const box = document.getElementById('chat-box');
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+    </script>
+
+</body>
+</html>
